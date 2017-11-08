@@ -1,4 +1,4 @@
-package org.sampsonlab.nephvseqtlsever;
+package org.sampsonlab.nephvseqtlsever.entities;
 
 import java.io.Serializable;
 
@@ -20,7 +20,7 @@ public class PeerEQTLKey implements Serializable {
 	private String variantStr; 
 	
 	@Column(name="entrezId", nullable = false)	
-	private Integer entrezId; 
+	private Long entrezId; 
 	
 	public String getDataType() {
 		return dataType;
@@ -38,11 +38,11 @@ public class PeerEQTLKey implements Serializable {
 		this.variantStr = variantStr;
 	}
 
-	public Integer getEntrezId() {
+	public Long getEntrezId() {
 		return entrezId;
 	}
 
-	public void setEntrezId(Integer entrezId) {
+	public void setEntrezId(Long entrezId) {
 		this.entrezId = entrezId;
 	}
 	
@@ -63,7 +63,7 @@ public class PeerEQTLKey implements Serializable {
 		int start = 17;
 		start = 31 * start + this.getDataType().hashCode();
 		start = 31 * start + this.getVariantStr().hashCode();
-		start = 31 * start + this.getEntrezId();
+		start = 31 * start + this.getEntrezId().hashCode();
 		return start;
 	}
 	

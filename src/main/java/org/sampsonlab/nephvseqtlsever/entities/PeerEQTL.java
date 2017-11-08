@@ -1,4 +1,4 @@
-package org.sampsonlab.nephvseqtlsever;
+package org.sampsonlab.nephvseqtlsever.entities;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
