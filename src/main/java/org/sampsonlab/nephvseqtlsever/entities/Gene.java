@@ -16,7 +16,7 @@ public class Gene {
 	@Column(name="symbol")	
 	private String symbol;
 	
-	@Column(name="tStat")	
+	@Column(name="ensg")	
 	private String ensg;
 	
 	@Column(name="geneType")	

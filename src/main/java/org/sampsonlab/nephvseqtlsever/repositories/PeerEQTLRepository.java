@@ -11,5 +11,7 @@ public interface PeerEQTLRepository extends Repository<PeerEQTL, PeerEQTLKey> {
 
 	@Query("select p from PeerEQTL p where p.key.entrezId = ?1")
 	List<PeerEQTL> findByEntrezId(Long entrezId);
-	
+
+	@Query("select p from PeerEQTL p inner join fetch p.gene g where g.symbol = ?1")
+	List<PeerEQTL> findByGeneSymbol(String symbol);
 }

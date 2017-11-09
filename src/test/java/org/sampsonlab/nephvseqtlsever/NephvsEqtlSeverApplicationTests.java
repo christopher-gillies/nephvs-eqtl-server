@@ -57,5 +57,22 @@ public class NephvsEqtlSeverApplicationTests {
 		
 		assertTrue(symbols.size() > 0);
 	}
+	
+	
+	@Test
+	public void testFindByGeneSymbol() {
+		logger.info( "testFindByGeneSymbol" );
+		List<PeerEQTL> res = peerEQTLRepository.findByGeneSymbol("inf2");
+		
+		/*
+		res.forEach((p) -> {
+			logger.info(p.getGene().getSymbol());
+		});
+		*/
+		
+		logger.info( Integer.toString(res.size()));
+		
+		assertTrue(res.size() > 0);
+	}
 
 }

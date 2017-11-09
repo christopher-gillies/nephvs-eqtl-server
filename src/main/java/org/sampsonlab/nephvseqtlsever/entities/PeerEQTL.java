@@ -3,6 +3,11 @@ package org.sampsonlab.nephvseqtlsever.entities;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +25,11 @@ public class PeerEQTL {
 	
 	@Column(name="pVal")	
 	private Double pVal;
+	
+	@MapsId("entrezId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="entrezId", referencedColumnName="entrezId")
+	private Gene gene;
 	
 	public PeerEQTLKey getKey() {
 		return key;
@@ -53,6 +63,14 @@ public class PeerEQTL {
 		this.pVal = pVal;
 	}
 	
+	public Gene getGene() {
+		return gene;
+	}
+
+	public void setGene(Gene gene) {
+		this.gene = gene;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof PeerEQTL) {
