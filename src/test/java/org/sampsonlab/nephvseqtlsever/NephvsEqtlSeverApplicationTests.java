@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.sampsonlab.nephvseqtlsever.domain.Query;
+import org.sampsonlab.nephvseqtlsever.dto.EQTLEntry;
+import org.sampsonlab.nephvseqtlsever.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlsever.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlsever.repositories.GeneRepository;
 import org.sampsonlab.nephvseqtlsever.repositories.PeerEQTLRepository;
@@ -62,17 +65,19 @@ public class NephvsEqtlSeverApplicationTests {
 	@Test
 	public void testFindByGeneSymbol() {
 		logger.info( "testFindByGeneSymbol" );
-		List<PeerEQTL> res = peerEQTLRepository.findByGeneSymbol("inf2");
-		
-		/*
-		res.forEach((p) -> {
-			logger.info(p.getGene().getSymbol());
-		});
-		*/
+		List<Object[]> res = peerEQTLRepository.findByGeneSymbolAndMaxPVal("inf2", 0.05);
 		
 		logger.info( Integer.toString(res.size()));
 		
 		assertTrue(res.size() > 0);
+		
+		EQTLResult result = EQTLResult.createFromListObjectEQTL(res, new Query("INF2"));
+		/*
+		result.getGlom().forEach(eqtl -> {
+			logger.info(eqtl.getDbSNPId() + " " + eqtl.getVariantStr());
+		});
+		*/
+		assertNotNull(result);
 	}
 
 }

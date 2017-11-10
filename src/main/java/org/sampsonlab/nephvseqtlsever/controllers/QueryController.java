@@ -2,6 +2,7 @@ package org.sampsonlab.nephvseqtlsever.controllers;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.sampsonlab.nephvseqtlsever.domain.Query;
@@ -23,13 +24,14 @@ public class QueryController {
 	private  PeerEQTLRepository peerEQTLRepository;
 	
 	@RequestMapping("")
-	public EQTLResult query(@RequestParam(value="query") String queryStr) {
+	public EQTLResult query(@RequestParam(name="query") String queryStr,
+			@RequestParam(name="maxPVal",defaultValue = "0.05", required = false ) Double maxPVal ) {
 		
 		EQTLResult result = null;
 		Query query = new Query(queryStr);
 		if(query.getType() == Query.Type.GeneSymbol) {
-			List<PeerEQTL> peerEqtls = peerEQTLRepository.findByGeneSymbol(query.getQuery());
-			result = EQTLResult.createFromListPeerEQTL(peerEqtls);
+			List<Object[]> objectEqtls = peerEQTLRepository.findByGeneSymbolAndMaxPVal(query.getQuery(), maxPVal);
+			result = EQTLResult.createFromListObjectEQTL(objectEqtls, query);
 		}
 		
 		return result;

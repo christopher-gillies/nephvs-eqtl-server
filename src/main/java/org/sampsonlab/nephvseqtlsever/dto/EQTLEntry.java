@@ -16,11 +16,14 @@ public class EQTLEntry {
 		result.setpVal(peerEQTL.getpVal());
 		result.settStat(peerEQTL.gettStat());
 		result.setVariantStr(peerEQTL.getKey().getVariantStr());
+		result.setDbSNPId(peerEQTL.getVariant().getDbSNPId());
 		return result;
 	}
 	
 
 	private String variantStr; 
+	
+	private String dbSNPId;
 	
 	private Long entrezId; 
 
@@ -38,6 +41,14 @@ public class EQTLEntry {
 
 	public void setVariantStr(String variantStr) {
 		this.variantStr = variantStr;
+	}
+	
+	public String getDbSNPId() {
+		return dbSNPId;
+	}
+
+	public void setDbSNPId(String dbSNPId) {
+		this.dbSNPId = dbSNPId;
 	}
 
 	public Long getEntrezId() {

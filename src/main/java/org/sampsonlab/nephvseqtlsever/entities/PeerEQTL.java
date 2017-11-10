@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +31,11 @@ public class PeerEQTL {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="entrezId", referencedColumnName="entrezId")
 	private Gene gene;
+	
+	@MapsId("variantStr")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="variantStr", referencedColumnName="variantStr")
+	private Variant variant;
 	
 	public PeerEQTLKey getKey() {
 		return key;
@@ -69,6 +75,15 @@ public class PeerEQTL {
 
 	public void setGene(Gene gene) {
 		this.gene = gene;
+	}
+	
+
+	public Variant getVariant() {
+		return variant;
+	}
+
+	public void setVariant(Variant variant) {
+		this.variant = variant;
 	}
 
 	@Override
