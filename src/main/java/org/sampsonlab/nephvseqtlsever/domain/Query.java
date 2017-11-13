@@ -1,14 +1,19 @@
 package org.sampsonlab.nephvseqtlsever.domain;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Query {
+public class Query implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7424470679583729081L;
 	private final String query;
 	private final Type type;
 	
-	protected static Pattern dbSNPPattern = Pattern.compile("((rs)|(RS))[0-9]+");
+	protected static Pattern dbSNPPattern = Pattern.compile("([rRSs][sS])[0-9]+");
 	protected static Pattern variantPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)");
 	protected static Pattern regionPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)[-]([0-9]+)");
 	protected static Pattern entrezPattern = Pattern.compile("[0-9]+");
@@ -74,7 +79,7 @@ public class Query {
 		return this.type;
 	}
 	
-	public Status isValid() {
+	public Status getStatus() {
 		
 		if(this.type == Type.Region) {
 			Region r = Region.createFromQuery(this);

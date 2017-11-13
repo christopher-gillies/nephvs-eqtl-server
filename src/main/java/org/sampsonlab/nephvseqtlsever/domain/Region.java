@@ -1,12 +1,17 @@
 package org.sampsonlab.nephvseqtlsever.domain;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.sampsonlab.nephvseqtlsever.domain.Query.Type;
 
-public class Region {
+public class Region implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5960820295003267131L;
 	private String chrom;
 	private int start;
 	private int end;

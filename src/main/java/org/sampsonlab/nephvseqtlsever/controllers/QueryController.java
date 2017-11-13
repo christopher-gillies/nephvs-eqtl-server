@@ -36,6 +36,12 @@ public class QueryController {
 			case GeneSymbol: 
 				objectEqtls = peerEQTLRepository.findByGeneSymbolAndMaxPVal(query.getQuery(), maxPVal);
 				break;
+			case Entrez: 
+				objectEqtls = peerEQTLRepository.findByEntrezIdAndMaxPVal(query.getEntrez(), maxPVal);
+				break;
+			case Ensembl: 
+				objectEqtls = peerEQTLRepository.findByEnsemblAndMaxPVal(query.getQuery(), maxPVal);
+				break;
 			case dbSNP:
 				objectEqtls = peerEQTLRepository.findBydbSNP(query.getQuery());
 				break;
