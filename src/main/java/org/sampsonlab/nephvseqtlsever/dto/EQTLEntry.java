@@ -17,6 +17,7 @@ public class EQTLEntry {
 		result.settStat(peerEQTL.gettStat());
 		result.setVariantStr(peerEQTL.getKey().getVariantStr());
 		result.setDbSNPId(peerEQTL.getVariant().getDbSNPId());
+		result.setOverallAf(peerEQTL.getVariant().getOverallAf());
 		return result;
 	}
 	
@@ -35,6 +36,9 @@ public class EQTLEntry {
 	
 	private String geneSymbol;
 
+	private Double overallAf;
+	
+	
 	public String getVariantStr() {
 		return variantStr;
 	}
@@ -90,7 +94,14 @@ public class EQTLEntry {
 	public void setGeneSymbol(String geneSymbol) {
 		this.geneSymbol = geneSymbol;
 	}
-	
+
+	public Double getOverallAf() {
+		return overallAf;
+	}
+
+	public void setOverallAf(Double overallAf) {
+		this.overallAf = overallAf;
+	}
 	
 	
 }

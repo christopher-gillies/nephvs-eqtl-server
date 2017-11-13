@@ -13,6 +13,10 @@ public class EQTLResult {
 		
 	}
 	
+	public static EQTLResult createEmpty() {
+		return new EQTLResult();
+	}
+	
 	public static EQTLResult createFromListObjectEQTL(List<Object[]> objEqtls, Query query) {
 		List<PeerEQTL> peerEqtls = new ArrayList<>(objEqtls.size());
 		objEqtls.forEach(obj -> {

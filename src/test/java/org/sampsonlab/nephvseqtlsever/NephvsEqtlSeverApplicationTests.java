@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sampsonlab.nephvseqtlsever.domain.Query;
+import org.sampsonlab.nephvseqtlsever.domain.Region;
 import org.sampsonlab.nephvseqtlsever.dto.EQTLEntry;
 import org.sampsonlab.nephvseqtlsever.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlsever.entities.PeerEQTL;
@@ -65,13 +66,14 @@ public class NephvsEqtlSeverApplicationTests {
 	@Test
 	public void testFindByGeneSymbol() {
 		logger.info( "testFindByGeneSymbol" );
-		List<Object[]> res = peerEQTLRepository.findByGeneSymbolAndMaxPVal("inf2", 0.05);
+		Query q =  new Query("inf2");
+		List<Object[]> res = peerEQTLRepository.findByGeneSymbolAndMaxPVal(q.getQuery(), 0.05);
 		
 		logger.info( Integer.toString(res.size()));
 		
 		assertTrue(res.size() > 0);
 		
-		EQTLResult result = EQTLResult.createFromListObjectEQTL(res, new Query("INF2"));
+		EQTLResult result = EQTLResult.createFromListObjectEQTL(res, q);
 		/*
 		result.getGlom().forEach(eqtl -> {
 			logger.info(eqtl.getDbSNPId() + " " + eqtl.getVariantStr());
@@ -80,4 +82,81 @@ public class NephvsEqtlSeverApplicationTests {
 		assertNotNull(result);
 	}
 
+	@Test
+	public void findByEntrezIdAndMaxPVal() {
+		logger.info( "findByEntrezIdAndMaxPVal" );
+		Query q =  new Query("64423");
+		List<Object[]> res = peerEQTLRepository.findByEntrezIdAndMaxPVal(q.getEntrez(), 0.05);
+		
+		logger.info( Integer.toString(res.size()));
+		
+		assertTrue(res.size() > 0);
+		
+		EQTLResult result = EQTLResult.createFromListObjectEQTL(res, q);
+		/*
+		result.getGlom().forEach(eqtl -> {
+			logger.info(eqtl.getDbSNPId() + " " + eqtl.getVariantStr());
+		});
+		*/
+		assertNotNull(result);
+	}
+	
+	@Test
+	public void findByEnsemblAndMaxPVal() {
+		logger.info( "findByEntrezIdAndMaxPVal" );
+		Query q =  new Query("ENSG00000203485");
+		List<Object[]> res = peerEQTLRepository.findByEnsemblAndMaxPVal(q.getQuery(), 0.05);
+		
+		logger.info( Integer.toString(res.size()));
+		
+		assertTrue(res.size() > 0);
+		
+		EQTLResult result = EQTLResult.createFromListObjectEQTL(res, q);
+		/*
+		result.getGlom().forEach(eqtl -> {
+			logger.info(eqtl.getDbSNPId() + " " + eqtl.getVariantStr());
+		});
+		*/
+		assertNotNull(result);
+	}
+	
+	@Test
+	public void testFindBydbSNPId() {
+		logger.info( "testFindBydbSNPId" );
+		Query q =  new Query("RS78786296");
+		List<Object[]> res = peerEQTLRepository.findBydbSNP(q.getQuery());
+		
+		logger.info( Integer.toString(res.size()));
+		
+		assertTrue(res.size() > 0);
+		
+	}
+	
+	@Test
+	public void testFindByVariant() {
+		logger.info( "testFindByVariant" );
+		Query q =  new Query("1:10108");
+		Region r = Region.createFromQuery(q);
+		
+		List<Object[]> res = peerEQTLRepository.findByRegion(r.getChrom(), r.getStart(), r.getEnd());
+		
+		logger.info( Integer.toString(res.size()));
+		
+		assertTrue(res.size() > 0);
+		
+	}
+	
+	@Test
+	public void testFindByRegion() {
+		logger.info( "testFindByRegion" );
+		Query q =  new Query("1:10108-10144");
+		Region r = Region.createFromQuery(q);
+		
+		List<Object[]> res = peerEQTLRepository.findByRegion(r.getChrom(), r.getStart(), r.getEnd());
+		
+		logger.info( Integer.toString(res.size()));
+		
+		assertTrue(res.size() > 0);
+		
+	}
 }
