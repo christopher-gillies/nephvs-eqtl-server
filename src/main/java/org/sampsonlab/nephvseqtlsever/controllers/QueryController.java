@@ -8,6 +8,7 @@ import java.util.List;
 import org.sampsonlab.nephvseqtlsever.domain.Query;
 import org.sampsonlab.nephvseqtlsever.domain.Region;
 import org.sampsonlab.nephvseqtlsever.dto.EQTLResult;
+import org.sampsonlab.nephvseqtlsever.dto.GeneAndVariantDetailResult;
 import org.sampsonlab.nephvseqtlsever.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlsever.repositories.PeerEQTLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,14 @@ public class QueryController {
 	public Query validateQuery(@RequestParam(value="query") String queryStr) {
 		Query query = new Query(queryStr);
 		return query;
+	}
+	
+	
+	@RequestMapping("/detail")
+	public GeneAndVariantDetailResult validateQuery(@RequestParam(value="entrezId") Long entrezId,
+			@RequestParam(value="variantStr") String variantStr, @RequestParam(value="tissue") String tissue) {
+		PeerEQTL res = peerEQTLRepository.findByEntrezIdAndVariantStrAndDataType(entrezId, variantStr, tissue);
+		return GeneAndVariantDetailResult.createFromPeerEQTL(res);
 	}
 	
 }

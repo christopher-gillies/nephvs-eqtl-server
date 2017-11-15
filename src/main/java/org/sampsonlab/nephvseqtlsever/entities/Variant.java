@@ -43,6 +43,9 @@ public class Variant {
 	@Column(name="EUR_AF")
 	private Double eurAf;
 	
+	@Column(name="1KG_AF")
+	private Double _1kgAf;
+	
 	@Column(name="1KG_AFR_AF")
 	private Double _1kgAfrAf;
 	
@@ -153,6 +156,12 @@ public class Variant {
 	}
 	public void set_1kgEurAf(Double _1kgEurAf) {
 		this._1kgEurAf = _1kgEurAf;
+	}
+	public Double get_1kgAf() {
+		return _1kgAf;
+	}
+	public void set_1kgAf(Double _1kgAf) {
+		this._1kgAf = _1kgAf;
 	}
 	
 	

@@ -159,4 +159,18 @@ public class NephvsEqtlSeverApplicationTests {
 		assertTrue(res.size() > 0);
 		
 	}
+	
+	@Test
+	public void testFindByEntrezIdAndVariantStrAndDataType() {
+		logger.info( "testfindByEntrezIdAndVariantStrAndDataType" );
+
+		
+		PeerEQTL res = peerEQTLRepository.findByEntrezIdAndVariantStrAndDataType(79501L, "1:10108_C/CT","glom");
+		
+		logger.info(res.getGene().getGeneCoord().getChrom());
+		logger.info(res.getGene().getGeneCoord().getTes().toString());
+		
+		assertNotNull(res);
+		
+	}
 }
