@@ -28,6 +28,6 @@ public interface PeerEQTLRepository extends Repository<PeerEQTL, PeerEQTLKey> {
 	List<Object[]> findByRegion(String chrom, int start, int end);
 	
 	
-	@Query("select p from PeerEQTL p inner join fetch p.gene g inner join fetch p.variant v inner join fetch g.geneCoord gc where p.key.entrezId = ?1 and p.key.variantStr = ?2 and p.key.dataType = ?3")
+	@Query("select p from PeerEQTL p inner join fetch p.gene g inner join fetch p.variant v inner join fetch g.geneCoord gc left join fetch g.geneExpr ge where p.key.entrezId = ?1 and p.key.variantStr = ?2 and p.key.dataType = ?3 and ge.key.tissue = ?3")
 	PeerEQTL findByEntrezIdAndVariantStrAndDataType(Long entrezId, String variantStr, String dataType);
 }

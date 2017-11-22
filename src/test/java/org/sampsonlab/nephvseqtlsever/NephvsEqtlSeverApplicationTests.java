@@ -1,5 +1,6 @@
 package org.sampsonlab.nephvseqtlsever;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -167,10 +168,15 @@ public class NephvsEqtlSeverApplicationTests {
 		
 		PeerEQTL res = peerEQTLRepository.findByEntrezIdAndVariantStrAndDataType(79501L, "1:10108_C/CT","glom");
 		
+		assertNotNull(res);
+		assertNotNull(res.getGene().getGeneExpr());
+		assertEquals(res.getGene().getGeneExpr().get(0).getKey().getTissue(),"glom");
 		logger.info(res.getGene().getGeneCoord().getChrom());
 		logger.info(res.getGene().getGeneCoord().getTes().toString());
 		
-		assertNotNull(res);
+
+		logger.info(res.getGene().getGeneExpr().get(0).getExpr().toString());
+		logger.info(res.getGene().getGeneExpr().get(0).getKey().getTissue());
 		
 	}
 }

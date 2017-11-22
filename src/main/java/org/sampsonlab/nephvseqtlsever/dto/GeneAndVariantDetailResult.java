@@ -1,6 +1,9 @@
 package org.sampsonlab.nephvseqtlsever.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import org.sampsonlab.nephvseqtlsever.entities.PeerEQTL;
 
@@ -10,7 +13,8 @@ public class GeneAndVariantDetailResult implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 251073185529523843L;
-
+	
+	private static final Random random = new Random(0L);
 	
 	private GeneAndVariantDetailResult () {
 		
@@ -52,7 +56,13 @@ public class GeneAndVariantDetailResult implements Serializable {
 		result.set_1kgAfrAf(peerEQTL.getVariant().get_1kgAfrAf());
 		result.set_1kgEurAf(peerEQTL.getVariant().get_1kgEurAf());
 		
+		List<ExpressionAndGenotype> exprAndGtForSubs = new ArrayList<>(peerEQTL.getGene().getGeneExpr().size());
 		
+		peerEQTL.getGene().getGeneExpr().forEach(ge -> {
+			exprAndGtForSubs.add(ExpressionAndGenotype.create(ge.getExpr(),random.nextInt(3)));
+		});
+		
+		result.setExprAndGtForSubs(exprAndGtForSubs);
 		return result;
 	}
 	
@@ -97,6 +107,20 @@ public class GeneAndVariantDetailResult implements Serializable {
 	private Double _1kgSasAf;
 	private Double _1kgEurAf;
 
+	private List<ExpressionAndGenotype> exprAndGtForSubs;
+	
+	
+	public List<ExpressionAndGenotype> getExprAndGtForSubs() {
+		return exprAndGtForSubs;
+	}
+
+	public void setExprAndGtForSubs(List<ExpressionAndGenotype> exprAndGtForSubs) {
+		this.exprAndGtForSubs = exprAndGtForSubs;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public String getVariantStr() {
 		return variantStr;

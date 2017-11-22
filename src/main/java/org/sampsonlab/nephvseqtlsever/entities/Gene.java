@@ -1,11 +1,14 @@
 package org.sampsonlab.nephvseqtlsever.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,7 +38,20 @@ public class Gene {
 	@JoinColumn(name="entrezId", referencedColumnName="entrezId")
 	private GeneCoord geneCoord;
 	
+	@MapsId("entrezId")
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="entrezId", referencedColumnName="entrezId")
+	private List<GeneExpr >geneExpr;
 	
+
+	public List<GeneExpr> getGeneExpr() {
+		return geneExpr;
+	}
+
+	public void setGeneExpr(List<GeneExpr> geneExpr) {
+		this.geneExpr = geneExpr;
+	}
+
 	public Long getEntrezId() {
 		return entrezId;
 	}
@@ -83,6 +99,7 @@ public class Gene {
 	public void setGeneCoord(GeneCoord geneCoord) {
 		this.geneCoord = geneCoord;
 	}
+	
 	
 	
 	
