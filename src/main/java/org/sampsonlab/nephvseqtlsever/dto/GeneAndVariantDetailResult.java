@@ -2,6 +2,7 @@ package org.sampsonlab.nephvseqtlsever.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -61,8 +62,25 @@ public class GeneAndVariantDetailResult implements Serializable {
 		peerEQTL.getGene().getGeneExpr().forEach(ge -> {
 			exprAndGtForSubs.add(ExpressionAndGenotype.create(ge.getExpr(),random.nextInt(3)));
 		});
-		
 		result.setExprAndGtForSubs(exprAndGtForSubs);
+		
+		//compute the count of individuals per genotype
+		HashMap<Integer,Integer> groups = new HashMap<>();
+		
+		exprAndGtForSubs.forEach(geAndGeno -> {
+			if(groups.containsKey(geAndGeno.getGt())) {
+				Integer count = groups.get(geAndGeno.getGt());
+				count++;
+				groups.put(geAndGeno.getGt(), count);
+			} else {
+				groups.put(geAndGeno.getGt(), 1);
+			}
+		});
+		
+		result.setHomRef(groups.get(0));
+		result.setHet(groups.get(1));
+		result.setHomAlt(groups.get(2));
+		
 		return result;
 	}
 	
@@ -92,6 +110,10 @@ public class GeneAndVariantDetailResult implements Serializable {
 	private String variantRef;
 	private String variantAlt;
 	private String variantDbSNPId;
+	
+	private Integer homRef;
+	private Integer het;
+	private Integer homAlt;
 	
 	private Double overallAf;
 	private Double afrAf;
@@ -344,6 +366,30 @@ public class GeneAndVariantDetailResult implements Serializable {
 
 	public void set_1kgSasAf(Double _1kgSasAf) {
 		this._1kgSasAf = _1kgSasAf;
+	}
+
+	public Integer getHomRef() {
+		return homRef;
+	}
+
+	public void setHomRef(Integer homRef) {
+		this.homRef = homRef;
+	}
+
+	public Integer getHet() {
+		return het;
+	}
+
+	public void setHet(Integer het) {
+		this.het = het;
+	}
+
+	public Integer getHomAlt() {
+		return homAlt;
+	}
+
+	public void setHomAlt(Integer homAlt) {
+		this.homAlt = homAlt;
 	}
 	
 	

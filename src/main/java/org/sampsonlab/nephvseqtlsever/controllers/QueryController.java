@@ -2,7 +2,6 @@ package org.sampsonlab.nephvseqtlsever.controllers;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.sampsonlab.nephvseqtlsever.domain.Query;
