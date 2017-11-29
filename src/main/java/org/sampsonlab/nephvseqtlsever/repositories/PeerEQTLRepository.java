@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.sampsonlab.nephvseqtlsever.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlsever.entities.PeerEQTLKey;
+import org.sampsonlab.nephvseqtlsever.entities.VariantSubject;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
@@ -30,4 +31,7 @@ public interface PeerEQTLRepository extends Repository<PeerEQTL, PeerEQTLKey> {
 	
 	@Query("select p from PeerEQTL p inner join fetch p.gene g inner join fetch p.variant v inner join fetch g.geneCoord gc left join fetch g.geneExpr ge where p.key.entrezId = ?1 and p.key.variantStr = ?2 and p.key.dataType = ?3 and ge.key.tissue = ?3")
 	PeerEQTL findByEntrezIdAndVariantStrAndDataType(Long entrezId, String variantStr, String dataType);
+	
+	@Query("select vs from VariantSubject vs where vs.key.variantStr = ?1")
+	List<VariantSubject> findByVariantStr(String variantStr);
 }

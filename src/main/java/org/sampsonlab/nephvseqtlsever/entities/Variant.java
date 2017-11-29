@@ -1,8 +1,14 @@
 package org.sampsonlab.nephvseqtlsever.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -60,6 +66,11 @@ public class Variant {
 	
 	@Column(name="1KG_EUR_AF")
 	private Double _1kgEurAf;
+	
+	@MapsId("variantStr")
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="variantStr", referencedColumnName="variantStr")
+	private List<VariantSubject> variantSubject;
 	
 	public String getVariantStr() {
 		return variantStr;
@@ -162,6 +173,14 @@ public class Variant {
 	}
 	public void set_1kgAf(Double _1kgAf) {
 		this._1kgAf = _1kgAf;
+	}
+	
+	public List<VariantSubject> getVariantSubject() {
+		return variantSubject;
+	}
+	
+	public void setVariantSubject(List<VariantSubject> variantSubject) {
+		this.variantSubject = variantSubject;
 	}
 	
 	

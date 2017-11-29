@@ -13,6 +13,7 @@ import org.sampsonlab.nephvseqtlsever.domain.Region;
 import org.sampsonlab.nephvseqtlsever.dto.EQTLEntry;
 import org.sampsonlab.nephvseqtlsever.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlsever.entities.PeerEQTL;
+import org.sampsonlab.nephvseqtlsever.entities.VariantSubject;
 import org.sampsonlab.nephvseqtlsever.repositories.GeneRepository;
 import org.sampsonlab.nephvseqtlsever.repositories.PeerEQTLRepository;
 import org.slf4j.Logger;
@@ -177,6 +178,18 @@ public class NephvsEqtlSeverApplicationTests {
 
 		logger.info(res.getGene().getGeneExpr().get(0).getExpr().toString());
 		logger.info(res.getGene().getGeneExpr().get(0).getKey().getTissue());
+	}
+	
+	@Test
+	public void testFindByVariantStrTest() {
+		logger.info( "testFindByVariantStrTest" );
+
 		
+		List<VariantSubject> res = peerEQTLRepository.findByVariantStr("1:10108_C/CT");
+		
+		assertNotNull(res);
+		assertTrue(res.size() > 0);
+		logger.info(res.get(0).getGenotypeInt().toString());
+		logger.info(Integer.toString(res.size()));
 	}
 }
