@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.sampsonlab.nephvseqtlserver.entities.PeerEQTL;
+import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
 
 public class GeneAndVariantDetailResult implements Serializable {
 
@@ -15,7 +16,7 @@ public class GeneAndVariantDetailResult implements Serializable {
 	 */
 	private static final long serialVersionUID = 251073185529523843L;
 	
-	private static final Random random = new Random(0L);
+	//private static final Random random = new Random(0L);
 	
 	private GeneAndVariantDetailResult () {
 		
@@ -61,13 +62,29 @@ public class GeneAndVariantDetailResult implements Serializable {
 		
 		//map genotypes and expression
 		HashMap<Integer,ExpressionAndGenotype> exprAndGenotypeBySubjectId = new HashMap<>();
+		HashMap<Integer,VariantSubject> variantSubjectMap = new HashMap<>();
 		
-		//store expression into hash
+		//store variants into a hash by id
+		peerEQTL.getVariant().getVariantSubject().forEach(v -> {
+			variantSubjectMap.put(v.getKey().getSubjectId(), v);
+		});
+		
+		//store expression and variants into hash
 		peerEQTL.getGene().getGeneExpr().forEach(ge -> {
-			ExpressionAndGenotype eg = ExpressionAndGenotype.create(ge.getExpr(),null);
+			//get variant for this person
+			VariantSubject v = variantSubjectMap.get(ge.getKey().getSubjectId());
+			
+			//store expression and integer
+			ExpressionAndGenotype eg = ExpressionAndGenotype.create(ge.getExpr(), v.getGenotypeInt());
+			
 			exprAndGenotypeBySubjectId.put(ge.getKey().getSubjectId(), eg);
 		});
 		
+		
+		
+		
+		//Store into
+		exprAndGtForSubs.addAll(exprAndGenotypeBySubjectId.values());
 		result.setExprAndGtForSubs(exprAndGtForSubs);
 		
 		//compute the count of individuals per genotype

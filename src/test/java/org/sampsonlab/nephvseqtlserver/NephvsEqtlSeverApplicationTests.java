@@ -16,6 +16,7 @@ import org.sampsonlab.nephvseqtlserver.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
 import org.sampsonlab.nephvseqtlserver.repositories.GeneRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.PeerEQTLRepository;
+import org.sampsonlab.nephvseqtlserver.repositories.SubjectRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class NephvsEqtlSeverApplicationTests {
 	
 	@Autowired
 	private GeneRepository geneRepository;
+	
+	@Autowired
+	private SubjectRepository subjectRepository;
 	
 	@Test
 	public void contextLoads() {
@@ -191,5 +195,13 @@ public class NephvsEqtlSeverApplicationTests {
 		assertTrue(res.size() > 0);
 		logger.info(res.get(0).getGenotypeInt().toString());
 		logger.info(Integer.toString(res.size()));
+	}
+	
+	@Test
+	public void testFindAllSubjects() {
+		logger.info( "testFindAllSubjects" );
+		List<Integer> ids = subjectRepository.findAllIds();
+		
+		assertTrue(ids.size() > 0);
 	}
 }

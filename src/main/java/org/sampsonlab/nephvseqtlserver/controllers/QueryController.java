@@ -4,13 +4,16 @@ package org.sampsonlab.nephvseqtlserver.controllers;
 
 import java.util.List;
 
+import org.sampsonlab.nephcseqtlsever.util.VariantSubjectDecompressor;
 import org.sampsonlab.nephvseqtlserver.domain.Query;
 import org.sampsonlab.nephvseqtlserver.domain.Region;
 import org.sampsonlab.nephvseqtlserver.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlserver.dto.GeneAndVariantDetailResult;
 import org.sampsonlab.nephvseqtlserver.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
+import org.sampsonlab.nephvseqtlserver.repositories.GeneRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.PeerEQTLRepository;
+import org.sampsonlab.nephvseqtlserver.repositories.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,10 @@ public class QueryController {
 
 	@Autowired
 	private  PeerEQTLRepository peerEQTLRepository;
+	
+	@Autowired
+	private SubjectRepository subjectRepository;
+	
 	
 	@RequestMapping("")
 	public EQTLResult query(@RequestParam(name="query") String queryStr,
@@ -77,7 +84,13 @@ public class QueryController {
 		 */
 		PeerEQTL res = peerEQTLRepository.findByEntrezIdAndVariantStrAndDataType(entrezId, variantStr, tissue);
 		List<VariantSubject> vs = peerEQTLRepository.findByVariantStr(variantStr);
-		res.getVariant().setVariantSubject(vs);
+		double af = res.getVariant().getOverallAf();
+		
+		//Get all subjects
+		List<Integer> allIds = subjectRepository.findAllIds();
+		
+		res.getVariant().setVariantSubject(VariantSubjectDecompressor.decompress(vs,allIds,af));
+		
 		return GeneAndVariantDetailResult.createFromPeerEQTL(res);
 	}
 	
