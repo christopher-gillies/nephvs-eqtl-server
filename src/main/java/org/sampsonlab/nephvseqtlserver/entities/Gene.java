@@ -43,7 +43,6 @@ public class Gene {
 	@JoinColumn(name="entrezId", referencedColumnName="entrezId")
 	private List<GeneExpr >geneExpr;
 	
-
 	public List<GeneExpr> getGeneExpr() {
 		return geneExpr;
 	}

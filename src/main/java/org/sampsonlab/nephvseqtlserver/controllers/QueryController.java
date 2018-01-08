@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.sampsonlab.nephcseqtlsever.util.VariantSubjectDecompressor;
 import org.sampsonlab.nephvseqtlserver.domain.Query;
+import org.sampsonlab.nephvseqtlserver.domain.Query.Type;
 import org.sampsonlab.nephvseqtlserver.domain.Region;
 import org.sampsonlab.nephvseqtlserver.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlserver.dto.GeneAndVariantDetailResult;
@@ -65,6 +66,15 @@ public class QueryController {
 		if(objectEqtls != null) {
 			result = EQTLResult.createFromListObjectEQTL(objectEqtls, query);
 		}
+		
+		if( (query.getType() == Type.GeneSymbol || query.getType() == Type.Entrez || 
+				query.getType() == Type.Ensembl)  && objectEqtls.size() > 0) {
+			
+			// if this is a gene and there are some eQTL results, then get the DAP cluster information for the glom and tub
+			
+			
+		}
+		
 		return result;
 		
 	}

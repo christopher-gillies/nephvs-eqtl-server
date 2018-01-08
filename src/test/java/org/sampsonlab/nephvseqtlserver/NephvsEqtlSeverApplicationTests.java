@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,11 @@ import org.sampsonlab.nephvseqtlserver.domain.Query;
 import org.sampsonlab.nephvseqtlserver.domain.Region;
 import org.sampsonlab.nephvseqtlserver.dto.EQTLEntry;
 import org.sampsonlab.nephvseqtlserver.dto.EQTLResult;
+import org.sampsonlab.nephvseqtlserver.entities.DAPGeneSummary;
+import org.sampsonlab.nephvseqtlserver.entities.DAPVariantSummary;
 import org.sampsonlab.nephvseqtlserver.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
+import org.sampsonlab.nephvseqtlserver.repositories.DAPRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.GeneRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.PeerEQTLRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.SubjectRepository;
@@ -37,6 +41,10 @@ public class NephvsEqtlSeverApplicationTests {
 	
 	@Autowired
 	private SubjectRepository subjectRepository;
+	
+	@Autowired
+	private DAPRepository dapRepository;
+	
 	
 	@Test
 	public void contextLoads() {
@@ -203,5 +211,35 @@ public class NephvsEqtlSeverApplicationTests {
 		List<Integer> ids = subjectRepository.findAllIds();
 		
 		assertTrue(ids.size() > 0);
+	}
+	
+	@Test
+	public void testFindDAPGeneSummaryByEntrezId() {
+		logger.info( "testFindDAPGeneSummaryByEntrezId" );
+		
+		Set<DAPGeneSummary> res = dapRepository.findByEntrezId(79501L);
+		
+		logger.info( "Result size: " + Integer.toString(res.size()) );
+		
+		assertTrue(res.size() == 2);
+		for(DAPGeneSummary dg : res) {
+			logger.info( Integer.toString(dg.hashCode()  ));
+			assertTrue( dg.getVariants().size() > 0);
+			assertNotNull(dg.getGene());
+			assertNotNull(dg.getGene().getGeneCoord());
+			
+			logger.info(dg.getGene().getSymbol());
+			logger.info(dg.getGene().getGeneCoord().getChrom());
+			
+			for(int i = 0; i < dg.getVariants().size() && i < 10; i++) {
+				DAPVariantSummary var = dg.getVariants().get(i);
+				logger.info(var.getKey().getVariantStr()  + ": " + var.getClusterPIP() + ": " + var.getSnpPIP());
+			}
+		}
+		
+	
+		
+		
+
 	}
 }
