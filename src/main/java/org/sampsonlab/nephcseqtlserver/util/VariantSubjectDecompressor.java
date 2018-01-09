@@ -1,4 +1,4 @@
-package org.sampsonlab.nephcseqtlsever.util;
+package org.sampsonlab.nephcseqtlserver.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;

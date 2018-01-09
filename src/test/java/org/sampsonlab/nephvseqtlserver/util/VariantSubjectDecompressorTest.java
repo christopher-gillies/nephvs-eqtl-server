@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
-import org.sampsonlab.nephcseqtlsever.util.VariantSubjectDecompressor;
+import org.sampsonlab.nephcseqtlserver.util.VariantSubjectDecompressor;
 import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
 
 public class VariantSubjectDecompressorTest {

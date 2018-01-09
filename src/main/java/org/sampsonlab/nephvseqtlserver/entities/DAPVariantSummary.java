@@ -65,5 +65,23 @@ public class DAPVariantSummary {
 		this.snpPIP = snpPIP;
 	}
 	
+	public static DAPVariantSummary create(String variantStr, Long entrezId, String dataType, 
+			Integer cluster, Double clusterPIP, Integer numSnps, Double snpPIP) {
+		
+		DAPVariantSummary dvs = new DAPVariantSummary();
+		DAPVariantSummaryKey key = new DAPVariantSummaryKey();
+		key.setVariantStr(variantStr);
+		key.setEntrezId(entrezId);
+		key.setDataType(dataType);
+		
+		dvs.setKey(key);
+		dvs.setCluster(cluster);
+		dvs.setClusterPIP(clusterPIP);
+		dvs.setNumSnps(numSnps);
+		dvs.setSnpPIP(snpPIP);
+		
+		return dvs;
+		
+	}
 	
 }

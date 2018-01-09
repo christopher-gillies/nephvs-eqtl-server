@@ -81,7 +81,23 @@ public class DAPGeneSummary {
 		this.gene = gene;
 	}
 	
-	
+	public static DAPGeneSummary create(Gene gene, String dataType, Double expSize, Double geneNull) {
+		DAPGeneSummary dgs = new DAPGeneSummary();
+		
+		DAPGeneSummaryKey key = new DAPGeneSummaryKey();
+		
+		dgs.setGene(gene);
+		
+		key.setDataType(dataType);
+		key.setEntrezId(gene.getEntrezId());
+		
+		dgs.setKey(key);
+		dgs.setExpSize(expSize);
+		dgs.setGeneNull(geneNull);
+		
+		
+		return dgs;
+	}
 	
 	
 }

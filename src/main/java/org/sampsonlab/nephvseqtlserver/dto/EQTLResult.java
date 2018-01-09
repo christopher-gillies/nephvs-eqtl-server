@@ -17,10 +17,14 @@ public class EQTLResult {
 		return new EQTLResult();
 	}
 	
+	public static PeerEQTL objectEQTLtoPeerEQTL(Object[] obj) {
+		return (PeerEQTL) obj[0];
+	}
+	
 	public static EQTLResult createFromListObjectEQTL(List<Object[]> objEqtls, Query query) {
 		List<PeerEQTL> peerEqtls = new ArrayList<>(objEqtls.size());
 		objEqtls.forEach(obj -> {
-			peerEqtls.add((PeerEQTL) obj[0]);
+			peerEqtls.add(objectEQTLtoPeerEQTL(obj));
 		});
 		
 		
@@ -47,6 +51,8 @@ public class EQTLResult {
 	private List<EQTLEntry> tub = new LinkedList<>();;
 	private Query query;
 	
+	private DAPPlotResult dapResult;
+	
 	public List<EQTLEntry> getGlom() {
 		return glom;
 	}
@@ -70,6 +76,15 @@ public class EQTLResult {
 	public void setQuery(Query query) {
 		this.query = query;
 	}
+
+	public DAPPlotResult getDapResult() {
+		return dapResult;
+	}
+
+	public void setDapResult(DAPPlotResult dapResult) {
+		this.dapResult = dapResult;
+	}
+	
 	
 	
 	

@@ -3,15 +3,19 @@ package org.sampsonlab.nephvseqtlserver.controllers;
 
 
 import java.util.List;
+import java.util.Set;
 
-import org.sampsonlab.nephcseqtlsever.util.VariantSubjectDecompressor;
+import org.sampsonlab.nephcseqtlserver.util.VariantSubjectDecompressor;
 import org.sampsonlab.nephvseqtlserver.domain.Query;
 import org.sampsonlab.nephvseqtlserver.domain.Query.Type;
 import org.sampsonlab.nephvseqtlserver.domain.Region;
+import org.sampsonlab.nephvseqtlserver.dto.DAPPlotResult;
 import org.sampsonlab.nephvseqtlserver.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlserver.dto.GeneAndVariantDetailResult;
+import org.sampsonlab.nephvseqtlserver.entities.DAPGeneSummary;
 import org.sampsonlab.nephvseqtlserver.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
+import org.sampsonlab.nephvseqtlserver.repositories.DAPRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.GeneRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.PeerEQTLRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.SubjectRepository;
@@ -21,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin
+@CrossOrigin(origins = { "http://localhost:3000"} )
 @RestController
 @RequestMapping("/query")
 public class QueryController {
@@ -32,6 +36,8 @@ public class QueryController {
 	@Autowired
 	private SubjectRepository subjectRepository;
 	
+	@Autowired
+	private DAPRepository dapRepository;
 	
 	@RequestMapping("")
 	public EQTLResult query(@RequestParam(name="query") String queryStr,
@@ -71,8 +77,12 @@ public class QueryController {
 				query.getType() == Type.Ensembl)  && objectEqtls.size() > 0) {
 			
 			// if this is a gene and there are some eQTL results, then get the DAP cluster information for the glom and tub
+			PeerEQTL peerEQTL = EQTLResult.objectEQTLtoPeerEQTL(objectEqtls.get(0));
+			Long entrezId = peerEQTL.getGene().getEntrezId();
 			
-			
+			Set<DAPGeneSummary> geneSummaries =  dapRepository.findByEntrezId(entrezId);
+			DAPPlotResult dapResult = DAPPlotResult.createFromCollectionOfDAPGeneSummary(geneSummaries);
+			result.setDapResult(dapResult);
 		}
 		
 		return result;
