@@ -2,6 +2,7 @@ package org.sampsonlab.nephvseqtlserver.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.sampsonlab.nephvseqtlserver.dto.DAPPlotResult.Tissue;
+import org.sampsonlab.nephvseqtlserver.dto.DAPPlotResult.Variant;
 import org.sampsonlab.nephvseqtlserver.entities.DAPGeneSummary;
 import org.sampsonlab.nephvseqtlserver.entities.DAPVariantSummary;
 import org.sampsonlab.nephvseqtlserver.entities.Gene;
@@ -84,10 +86,47 @@ public class DAPPlotResultTests {
 		assertEquals(0.2, glom.clusters.get(1).pip,0.00001);
 		
 		//check values values
-		assertTrue(glom.clusters.get(0).variants.get(0).variantStr.equals("chr1:1"));
-		assertTrue(glom.clusters.get(0).variants.get(0).pip.equals(0.4));
-		assertTrue(glom.clusters.get(0).variants.get(1).variantStr.equals("chr1:2"));
-		assertTrue(glom.clusters.get(1).variants.get(0).variantStr.equals("chr1:3"));
-		assertTrue(tube.clusters.get(0).variants.get(0).variantStr.equals("chr1:4"));
+		assertTrue(glom.clusters.get(0).variants.get(0).getVariantStr().equals("chr1:1"));
+		assertTrue(glom.clusters.get(0).variants.get(0).getPip().equals(0.4));
+		assertTrue(glom.clusters.get(0).variants.get(1).getVariantStr().equals("chr1:2"));
+		assertTrue(glom.clusters.get(1).variants.get(0).getVariantStr().equals("chr1:3"));
+		assertTrue(tube.clusters.get(0).variants.get(0).getVariantStr().equals("chr1:4"));
+	}
+	
+	
+	@Test
+	public void testCreateVariant1() {
+		String v1 = "chr11:22";
+		
+		Variant var = Variant.create(v1, 0.0);
+		
+		assertEquals("11",var.getChrom());
+		assertEquals((int) 22, (int) var.getPos());
+		assertNull(var.getRef());
+		assertNull(var.getAlt());
+	}
+	
+	@Test
+	public void testCreateVariant2() {
+		String v1 = "11:22";
+		
+		Variant var = Variant.create(v1, 0.0);
+		
+		assertEquals("11",var.getChrom());
+		assertEquals((int) 22, (int) var.getPos());
+		assertNull(var.getRef());
+		assertNull(var.getAlt());
+	}
+	
+	@Test
+	public void testCreateVariant3() {
+		String v1 = "11:22_AAA/TTT";
+		
+		Variant var = Variant.create(v1, 0.0);
+		
+		assertEquals("11",var.getChrom());
+		assertEquals((int) 22, (int) var.getPos());
+		assertEquals("AAA",var.getRef());
+		assertEquals("TTT",var.getAlt());
 	}
 }

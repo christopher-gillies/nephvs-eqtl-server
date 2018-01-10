@@ -4,9 +4,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.sampsonlab.nephvseqtlserver.entities.DAPGeneSummary;
 import org.sampsonlab.nephvseqtlserver.entities.DAPVariantSummary;
+
+
 
 import java.io.Serializable;
 
@@ -126,12 +130,48 @@ public class DAPPlotResult implements Serializable {
 	
 	public static class Variant implements Serializable {
 		
+		private Variant() {
+			
+		}
+		
+		
+		public static Pattern variantPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)([_]([^/]+)[/]([^/]+))?");
+		
+		public static Variant create(String variantStr, Double pip) {
+			Variant v = new Variant();
+			
+			v.pip = pip;
+			v.variantStr = variantStr;
+			
+			Matcher variantMatcher = variantPattern.matcher(variantStr);
+			
+			if(variantMatcher.matches()) {
+				//0 should be full match
+				//1 will be chr
+				v.chrom = variantMatcher.group(2);
+				v.pos = Integer.parseInt(variantMatcher.group(3));
+				if(variantMatcher.groupCount() == 6) {
+					v.ref = variantMatcher.group(5);
+					v.alt = variantMatcher.group(6);
+				}
+			} else {
+				throw new IllegalArgumentException("variantStr is not formatted correctly");
+			}
+			
+			return v;
+		}
+		
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 9146652300605523340L;
-		String variantStr;
-		Double pip;
+		
+		private String variantStr;
+		private Double pip;
+		private String chrom;
+		private Integer pos;
+		private String ref;
+		private String alt;
 		
 		public String getVariantStr() {
 			return variantStr;
@@ -145,6 +185,39 @@ public class DAPPlotResult implements Serializable {
 		public void setPip(Double pip) {
 			this.pip = pip;
 		}
+
+		public String getChrom() {
+			return chrom;
+		}
+
+		public void setChrom(String chrom) {
+			this.chrom = chrom;
+		}
+
+		public Integer getPos() {
+			return pos;
+		}
+
+		public void setPos(Integer pos) {
+			this.pos = pos;
+		}
+
+		public String getRef() {
+			return ref;
+		}
+
+		public void setRef(String ref) {
+			this.ref = ref;
+		}
+
+		public String getAlt() {
+			return alt;
+		}
+
+		public void setAlt(String alt) {
+			this.alt = alt;
+		}
+		
 		
 		
 	}
@@ -243,10 +316,14 @@ public class DAPPlotResult implements Serializable {
 				gene.ensg = summary.getGene().getEnsg();
 				gene.symbol = summary.getGene().getSymbol();
 				gene.chrom = summary.getGene().getGeneCoord().getChrom();
-				gene.start = summary.getGene().getGeneCoord().getTss();
-				gene.end = summary.getGene().getGeneCoord().getTes();
 				
-				if(gene.start < gene.end) {
+				Long tss = summary.getGene().getGeneCoord().getTss();
+				Long tes = summary.getGene().getGeneCoord().getTes();
+				
+				gene.start = Math.min( tss,tes);
+				gene.end = Math.max(tss, tes);
+				
+				if(tss <= tes) {
 					gene.strand = "+";
 				} else {
 					gene.strand = "-";
@@ -294,9 +371,7 @@ public class DAPPlotResult implements Serializable {
 					clusterMap.put(cluster.cluster, cluster);
 				}
 				
-				Variant v = new Variant();
-				v.variantStr = dapVariantSummary.getKey().getVariantStr();
-				v.pip = dapVariantSummary.getSnpPIP();
+				Variant v = Variant.create(dapVariantSummary.getKey().getVariantStr(), dapVariantSummary.getSnpPIP());
 				//add variants to cluster
 				cluster.variants.add(v);
 			}

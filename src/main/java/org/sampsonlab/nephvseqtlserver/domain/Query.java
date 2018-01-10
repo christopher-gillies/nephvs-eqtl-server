@@ -13,11 +13,11 @@ public class Query implements Serializable{
 	private final String query;
 	private final Type type;
 	
-	protected static Pattern dbSNPPattern = Pattern.compile("([rRSs][sS])[0-9]+");
-	protected static Pattern variantPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)");
-	protected static Pattern regionPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)[-]([0-9]+)");
-	protected static Pattern entrezPattern = Pattern.compile("[0-9]+");
-	protected static Pattern ensemblPattern = Pattern.compile("[Ee][Nn][Ss][Gg][0-9]+");
+	public static Pattern dbSNPPattern = Pattern.compile("([rRSs][sS])[0-9]+");
+	public static Pattern variantPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)");
+	public static Pattern regionPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)[-]([0-9]+)");
+	public static Pattern entrezPattern = Pattern.compile("[0-9]+");
+	public static Pattern ensemblPattern = Pattern.compile("[Ee][Nn][Ss][Gg][0-9]+");
 	
 	public Query(String query) {
 		query = query.trim();
