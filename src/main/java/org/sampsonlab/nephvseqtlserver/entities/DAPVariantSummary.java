@@ -3,6 +3,10 @@ package org.sampsonlab.nephvseqtlserver.entities;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 
@@ -25,6 +29,12 @@ public class DAPVariantSummary {
 	@Column(name="snpPip")
 	private Double snpPIP;
 
+	
+	@MapsId("variantStr")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="variantStr", referencedColumnName="variantStr")
+	private Variant variant;
+	
 	public DAPVariantSummaryKey getKey() {
 		return key;
 	}
@@ -65,6 +75,14 @@ public class DAPVariantSummary {
 		this.snpPIP = snpPIP;
 	}
 	
+	public Variant getVariant() {
+		return variant;
+	}
+
+	public void setVariant(Variant variant) {
+		this.variant = variant;
+	}
+
 	public static DAPVariantSummary create(String variantStr, Long entrezId, String dataType, 
 			Integer cluster, Double clusterPIP, Integer numSnps, Double snpPIP) {
 		
@@ -79,6 +97,8 @@ public class DAPVariantSummary {
 		dvs.setClusterPIP(clusterPIP);
 		dvs.setNumSnps(numSnps);
 		dvs.setSnpPIP(snpPIP);
+		
+		dvs.setVariant(new Variant());
 		
 		return dvs;
 		

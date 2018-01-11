@@ -37,6 +37,8 @@ public class DAPPlotResultTests {
 		
 		List<DAPVariantSummary> t1Vs = new LinkedList<>();
 		
+		
+		
 		DAPVariantSummary v1 = DAPVariantSummary.create("chr1:1",  123L, "glom", 1, 0.9, 2, 0.4);
 		DAPVariantSummary v2 = DAPVariantSummary.create("chr1:2",  123L, "glom", 1, 0.9, 2, 0.5);
 		DAPVariantSummary v3 = DAPVariantSummary.create("chr1:3",  123L, "glom", 2, 0.2, 1, 0.2);
@@ -54,6 +56,7 @@ public class DAPPlotResultTests {
 		List<DAPVariantSummary> t2Vs = new LinkedList<>();
 		
 		DAPVariantSummary v4 = DAPVariantSummary.create("chr1:4",  123L, "tube", 1, 0.9, 2, 0.4);
+		
 		t2Vs.add(v4);
 		t2.setVariants(t2Vs);
 		
@@ -98,7 +101,7 @@ public class DAPPlotResultTests {
 	public void testCreateVariant1() {
 		String v1 = "chr11:22";
 		
-		Variant var = Variant.create(v1, 0.0);
+		Variant var = Variant.create(v1, 0.0,0.5,"123");
 		
 		assertEquals("11",var.getChrom());
 		assertEquals((int) 22, (int) var.getPos());
@@ -110,7 +113,7 @@ public class DAPPlotResultTests {
 	public void testCreateVariant2() {
 		String v1 = "11:22";
 		
-		Variant var = Variant.create(v1, 0.0);
+		Variant var = Variant.create(v1, 0.0,0.5,"123");
 		
 		assertEquals("11",var.getChrom());
 		assertEquals((int) 22, (int) var.getPos());
@@ -122,7 +125,7 @@ public class DAPPlotResultTests {
 	public void testCreateVariant3() {
 		String v1 = "11:22_AAA/TTT";
 		
-		Variant var = Variant.create(v1, 0.0);
+		Variant var = Variant.create(v1, 0.0,0.5,"123");
 		
 		assertEquals("11",var.getChrom());
 		assertEquals((int) 22, (int) var.getPos());

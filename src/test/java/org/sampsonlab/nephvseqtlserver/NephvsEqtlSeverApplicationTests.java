@@ -233,6 +233,7 @@ public class NephvsEqtlSeverApplicationTests {
 			
 			for(int i = 0; i < dg.getVariants().size() && i < 10; i++) {
 				DAPVariantSummary var = dg.getVariants().get(i);
+				assertNotNull(var.getVariant());
 				logger.info(var.getKey().getVariantStr()  + ": " + var.getClusterPIP() + ": " + var.getSnpPIP());
 			}
 		}

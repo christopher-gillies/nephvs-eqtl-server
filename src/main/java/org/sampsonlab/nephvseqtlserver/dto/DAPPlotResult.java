@@ -147,11 +147,13 @@ public class DAPPlotResult implements Serializable {
 		
 		public static Pattern variantPattern = Pattern.compile("([cC][hH][rR])?([0-9XYxy]{1,2})[:]([0-9]+)([_]([^/]+)[/]([^/]+))?");
 		
-		public static Variant create(String variantStr, Double pip) {
+		public static Variant create(String variantStr, Double pip, Double af, String dbSNPId) {
 			Variant v = new Variant();
 			
 			v.pip = pip;
 			v.variantStr = variantStr;
+			v.af = af;
+			v.dbSNPId = dbSNPId;
 			
 			Matcher variantMatcher = variantPattern.matcher(variantStr);
 			
@@ -182,6 +184,8 @@ public class DAPPlotResult implements Serializable {
 		private Integer pos;
 		private String ref;
 		private String alt;
+		private Double af;
+		private String dbSNPId;
 		
 		public String getVariantStr() {
 			return variantStr;
@@ -227,6 +231,19 @@ public class DAPPlotResult implements Serializable {
 		public void setAlt(String alt) {
 			this.alt = alt;
 		}
+		public Double getAf() {
+			return af;
+		}
+		public void setAf(Double af) {
+			this.af = af;
+		}
+		public String getDbSNPId() {
+			return dbSNPId;
+		}
+		public void setDbSNPId(String dbSNPId) {
+			this.dbSNPId = dbSNPId;
+		}
+		
 		
 		
 		
@@ -381,7 +398,8 @@ public class DAPPlotResult implements Serializable {
 					clusterMap.put(cluster.cluster, cluster);
 				}
 				
-				Variant v = Variant.create(dapVariantSummary.getKey().getVariantStr(), dapVariantSummary.getSnpPIP());
+				Variant v = Variant.create(dapVariantSummary.getKey().getVariantStr(), 
+						dapVariantSummary.getSnpPIP(), dapVariantSummary.getVariant().getOverallAf(), dapVariantSummary.getVariant().getDbSNPId());
 				//add variants to cluster
 				cluster.variants.add(v);
 			}
