@@ -56,6 +56,7 @@ public class DAPPlotResult implements Serializable {
 		Double expSize;
 		List<Cluster> clusters;
 		Double geneNull;
+		Double fdr;
 		
 		public Tissue() {
 			this.clusters = new LinkedList<>();
@@ -92,6 +93,15 @@ public class DAPPlotResult implements Serializable {
 		public void setGeneNull(Double geneNull) {
 			this.geneNull = geneNull;
 		}
+
+		public Double getFdr() {
+			return fdr;
+		}
+
+		public void setFdr(Double fdr) {
+			this.fdr = fdr;
+		}
+		
 		
 		
 		
@@ -372,6 +382,7 @@ public class DAPPlotResult implements Serializable {
 			t.expSize = summary.getExpSize();
 			t.clusters = new LinkedList<>();
 			t.geneNull = summary.getGeneNull();
+			t.fdr = summary.getFdr();
 			HashMap<String,Tissue> tissues = result.getTissues();
 			
 			if(tissues.containsKey(tissue)) {

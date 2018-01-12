@@ -12,6 +12,7 @@ import org.sampsonlab.nephvseqtlserver.domain.Region;
 import org.sampsonlab.nephvseqtlserver.dto.DAPPlotResult;
 import org.sampsonlab.nephvseqtlserver.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlserver.dto.GeneAndVariantDetailResult;
+import org.sampsonlab.nephvseqtlserver.dto.GeneSummaryResult;
 import org.sampsonlab.nephvseqtlserver.entities.DAPGeneSummary;
 import org.sampsonlab.nephvseqtlserver.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
@@ -112,6 +113,12 @@ public class QueryController {
 		res.getVariant().setVariantSubject(VariantSubjectDecompressor.decompress(vs,allIds,af));
 		
 		return GeneAndVariantDetailResult.createFromPeerEQTL(res);
+	}
+	
+	
+	@RequestMapping("/geneSummary")
+	public GeneSummaryResult geneSummary(@RequestParam(value="fdr") Double fdr) {
+		return GeneSummaryResult.create(dapRepository.findByFDR(fdr));
 	}
 	
 }

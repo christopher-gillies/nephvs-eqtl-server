@@ -27,6 +27,8 @@ public class DAPGeneSummary {
 	@Column(name="expSize")
 	private Double expSize;
 	
+	@Column(name="FDR")
+	private Double fdr;
 	
 
 	@OneToMany(fetch = FetchType.LAZY)
@@ -81,6 +83,15 @@ public class DAPGeneSummary {
 		this.gene = gene;
 	}
 	
+	
+	public Double getFdr() {
+		return fdr;
+	}
+
+	public void setFdr(Double fdr) {
+		this.fdr = fdr;
+	}
+
 	public static DAPGeneSummary create(Gene gene, String dataType, Double expSize, Double geneNull) {
 		DAPGeneSummary dgs = new DAPGeneSummary();
 		

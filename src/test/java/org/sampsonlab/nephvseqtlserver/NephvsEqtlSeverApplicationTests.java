@@ -243,4 +243,18 @@ public class NephvsEqtlSeverApplicationTests {
 		
 
 	}
+	
+	
+	
+	@Test
+	public void testFindDAPGeneSummaryByFDR() {
+		logger.info( "testFindDAPGeneSummaryByFDR" );
+		Set<DAPGeneSummary> summaries = dapRepository.findByFDR(0.01);
+		
+		summaries.forEach( gene -> {
+			assertTrue( gene.getFdr() < 0.01);
+			assertNotNull(gene.getGene());
+		});
+		
+	}
 }
