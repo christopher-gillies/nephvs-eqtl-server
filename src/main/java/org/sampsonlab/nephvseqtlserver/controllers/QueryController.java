@@ -117,7 +117,7 @@ public class QueryController {
 	
 	
 	@RequestMapping("/geneSummary")
-	public GeneSummaryResult geneSummary(@RequestParam(value="fdr") Double fdr) {
+	public GeneSummaryResult geneSummary(@RequestParam(value="fdr",defaultValue="0.01") Double fdr) {
 		return GeneSummaryResult.create(dapRepository.findByFDR(fdr));
 	}
 	
