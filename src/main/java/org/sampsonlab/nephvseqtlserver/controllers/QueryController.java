@@ -17,7 +17,6 @@ import org.sampsonlab.nephvseqtlserver.entities.DAPGeneSummary;
 import org.sampsonlab.nephvseqtlserver.entities.PeerEQTL;
 import org.sampsonlab.nephvseqtlserver.entities.VariantSubject;
 import org.sampsonlab.nephvseqtlserver.repositories.DAPRepository;
-import org.sampsonlab.nephvseqtlserver.repositories.GeneRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.PeerEQTLRepository;
 import org.sampsonlab.nephvseqtlserver.repositories.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = { "http://localhost:3000"} )
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost",
+		"https://localhost:3000", "https://localhost",
+		"http://127.0.0.1:3000", "http://127.0.0.1",
+		"https://127.0.0.1:3000", "https://127.0.0.1",
+		"http://eqtl.nephvs.org:3000", "http://eqtl.nephvs.org"
+} )
 @RestController
 @RequestMapping("/query")
 public class QueryController {
