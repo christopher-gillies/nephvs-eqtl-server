@@ -2,6 +2,7 @@ package org.sampsonlab.nephvseqtlserver.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -85,6 +86,11 @@ public class GeneAndVariantDetailResult implements Serializable {
 		
 		//Store into
 		exprAndGtForSubs.addAll(exprAndGenotypeBySubjectId.values());
+		
+		/*
+		 * Randomly shuffle the order of the genotypes and expression
+		 */
+		Collections.shuffle(exprAndGtForSubs);
 		result.setExprAndGtForSubs(exprAndGtForSubs);
 		
 		//compute the count of individuals per genotype
