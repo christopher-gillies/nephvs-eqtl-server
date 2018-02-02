@@ -98,7 +98,7 @@ public class QueryController {
 	
 	
 	@RequestMapping("/detail")
-	public GeneAndVariantDetailResult validateQuery(@RequestParam(value="entrezId") Long entrezId,
+	public GeneAndVariantDetailResult detail(@RequestParam(value="entrezId") Long entrezId,
 			@RequestParam(value="variantStr") String variantStr, @RequestParam(value="tissue") String tissue) {
 		/*
 		 * We run 2 queries here b/c hibernate was complaining about pull multiple "bags" from the database
