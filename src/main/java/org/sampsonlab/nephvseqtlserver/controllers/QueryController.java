@@ -9,6 +9,7 @@ import org.sampsonlab.nephcseqtlserver.util.VariantSubjectDecompressor;
 import org.sampsonlab.nephvseqtlserver.domain.Query;
 import org.sampsonlab.nephvseqtlserver.domain.Query.Type;
 import org.sampsonlab.nephvseqtlserver.domain.Region;
+import org.sampsonlab.nephvseqtlserver.dto.BoxPlotMetaData;
 import org.sampsonlab.nephvseqtlserver.dto.DAPPlotResult;
 import org.sampsonlab.nephvseqtlserver.dto.EQTLResult;
 import org.sampsonlab.nephvseqtlserver.dto.GeneAndVariantDetailResult;
@@ -97,7 +98,7 @@ public class QueryController {
 	}
 	
 	
-	@RequestMapping("/detail")
+	//@RequestMapping("/detail")
 	public GeneAndVariantDetailResult detail(@RequestParam(value="entrezId") Long entrezId,
 			@RequestParam(value="variantStr") String variantStr, @RequestParam(value="tissue") String tissue) {
 		/*
@@ -113,6 +114,24 @@ public class QueryController {
 		res.getVariant().setVariantSubject(VariantSubjectDecompressor.decompress(vs,allIds,af));
 		
 		return GeneAndVariantDetailResult.createFromPeerEQTL(res);
+	}
+	
+	@RequestMapping("/detail")
+	public GeneAndVariantDetailResult detailOutliersOnly(@RequestParam(value="entrezId") Long entrezId,
+			@RequestParam(value="variantStr") String variantStr, @RequestParam(value="tissue") String tissue) {
+		
+		GeneAndVariantDetailResult res = detail(entrezId,variantStr, tissue);
+		
+		//compute boxplot meta data
+		BoxPlotMetaData boxPlotMeta = BoxPlotMetaData.create(res.getExprAndGtForSubs(), res.getVariantRef(), res.getVariantAlt());
+		
+		//set boxplot meta data
+		res.setBoxPlotMeta(boxPlotMeta);
+		
+		//clear expression/gt list
+		res.setExprAndGtForSubs(null);
+		
+		return res;
 	}
 	
 	

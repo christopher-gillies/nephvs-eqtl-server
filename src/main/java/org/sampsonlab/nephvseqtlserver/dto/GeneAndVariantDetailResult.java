@@ -158,6 +158,9 @@ public class GeneAndVariantDetailResult implements Serializable {
 	private Double _1kgSasAf;
 	private Double _1kgEurAf;
 
+	
+	private BoxPlotMetaData boxPlotMeta;
+	
 	private List<ExpressionAndGenotype> exprAndGtForSubs;
 	
 	
@@ -419,6 +422,14 @@ public class GeneAndVariantDetailResult implements Serializable {
 
 	public void setHomAlt(Integer homAlt) {
 		this.homAlt = homAlt;
+	}
+
+	public BoxPlotMetaData getBoxPlotMeta() {
+		return boxPlotMeta;
+	}
+
+	public void setBoxPlotMeta(BoxPlotMetaData boxPlotMeta) {
+		this.boxPlotMeta = boxPlotMeta;
 	}
 	
 	
